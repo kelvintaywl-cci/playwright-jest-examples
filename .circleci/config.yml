@@ -42,6 +42,7 @@ jobs:
           path: www/junit.xml
       - store_artifacts:
           path: /mnt/ramdisk/www/junit.xml
+          when: on_fail
       - run:
           name: Debug Test Metadata
           command: |
