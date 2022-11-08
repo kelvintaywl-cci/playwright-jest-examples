@@ -17,6 +17,11 @@ jobs:
           command: |
             cat "${CIRCLE_INTERNAL_TASK_DATA}/circle-test-results/results.json" | jq .
       - checkout
+      - run:
+          name: Get info re parallelism
+          command: |
+             printenv CIRCLE_NODE_INDEX
+             printenv CIRCLE_NODE_TOTAL
       - attach_workspace:
           at: /mnt/ramdisk/
       - run:
