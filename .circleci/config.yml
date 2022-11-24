@@ -40,7 +40,7 @@ jobs:
           name: Showcase modified junit.xml
           command: |
             cat www/junit.xml
-      - run:
+      - run: |
           mkdir -p $TEST_DIR
           mv www/junit.xml $TEST_DIR/junit.xml
       - store_test_results:
