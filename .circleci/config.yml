@@ -38,14 +38,12 @@ jobs:
           name: Showcase modified junit.xml
           command: |
             cat www/junit.xml
-      - store_test_results:
-          path: www/junit.xml
-      - store_artifacts:
-          path: /mnt/ramdisk/www/junit.xml
       - run:
-          name: Debug Test Metadata
+          name: duplicate junit.xml
           command: |
-            cat "${CIRCLE_INTERNAL_TASK_DATA}/circle-test-results/results.json" | jq "."
+            cat www/junit.xml > www/junit2.xml
+      - store_test_results:
+          path: www
 
 workflows:
   main:
