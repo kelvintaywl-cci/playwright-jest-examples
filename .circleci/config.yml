@@ -42,10 +42,10 @@ jobs:
           path: www
       - store_artifacts:
           path: /mnt/ramdisk/www/junit.xml
-      - run:
-          name: Debug Test Metadata
-          command: |
-            cat "${CIRCLE_INTERNAL_TASK_DATA}/circle-test-results/results.json" | jq "."
+#       - run:
+#           name: Debug Test Metadata
+#           command: |
+#             cat "${CIRCLE_INTERNAL_TASK_DATA}/circle-test-results/results.json" | jq "."
 
 workflows:
   main:
