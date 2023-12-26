@@ -9,5 +9,8 @@
     "jest": "^27.0.3",
     "jest-playwright-preset": "^1.6.0",
     "playwright": "^1.11.1"
+  },
+  "dependencies": {
+    "jest-junit": "^16.0.0"
   }
 }
