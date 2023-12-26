@@ -21,7 +21,9 @@ jobs:
           at: /mnt/ramdisk/
       - run:
           name: NPM install
-          command: npm install
+          command: |
+            npm install
+            npx playwright install
       - run:
           name: Tests Using Glob/Split
           command: bash glob_split.sh
