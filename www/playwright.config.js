@@ -23,8 +23,7 @@ module.exports = {
   retries: 1,
   reporter: [
       ["dot"],
-      // include file attribute
-      ["junit", { outputFile: "junit.xml", addFileAttribute: true }],
+      ["junit", { outputFile: "junit.xml" }],
   ],
   reportSlowTests: null,
   timeout: 200000,
