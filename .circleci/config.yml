@@ -20,6 +20,10 @@ jobs:
       - attach_workspace:
           at: /mnt/ramdisk/
       - run:
+          name: glob tests to verify
+          command: |
+            circleci tests glob "/mnt/ramdisk/**/*.test.js"
+      - run:
           name: NPM install
           command: |
             npm install
