@@ -7,15 +7,23 @@ executors:
     working_directory: /mnt/ramdisk
 
 jobs:
-  build:
+  merge-reports:
+    executor: node-browsers
+    steps:
+      - run: mkdir -p /mnt/ramdisk/www
+      - attach_workspace:
+          at: /mnt/ramdisk/www
+      - run: ls www/junit_*.xml
+      - run: npm install -g junit-report-merger
+      - run: jrm ./combined.xml "./www/junit_*.xml"
+      - store_artifacts:
+          path: /mnt/ramdisk/combined.xml
+      
+  test:
     executor: node-browsers
     parallelism: 2
     resource_class: small
     steps:
-#       - run:
-#           name: Check out previous test metadata
-#           command: |
-#             cat "${CIRCLE_INTERNAL_TASK_DATA}/circle-test-results/results.json" | jq .
       - checkout
       - attach_workspace:
           at: /mnt/ramdisk/
@@ -49,14 +57,21 @@ jobs:
             cat www/junit.xml
       - store_test_results:
           path: www
-      - store_artifacts:
-          path: /mnt/ramdisk/www/junit.xml
-#       - run:
-#           name: Debug Test Metadata
-#           command: |
-#             cat "${CIRCLE_INTERNAL_TASK_DATA}/circle-test-results/results.json" | jq "."
+      # - store_artifacts:
+      #     path: /mnt/ramdisk/www/junit.xml
+      - run:
+          name: save report with unique filename
+          command: |
+            cp www/junit.xml "www/junit_${CIRCLE_NODE_INDEX}.xml"
+      - persist_to_workspace:
+          root: www
+          paths:
+            - junit_*.xml
 
 workflows:
-  main:
+  test-split-fanin-combine-results:
     jobs:
-      - build
+      - test
+      - merge-reports:
+          requires:
+            - test
