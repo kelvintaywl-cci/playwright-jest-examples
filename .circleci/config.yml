@@ -20,6 +20,20 @@ jobs:
       - attach_workspace:
           at: /mnt/ramdisk/
       - run:
+          name: Check Node heap size
+          command: node -e 'console.log(v8.getHeapStatistics().heap_size_limit/(1024*1024*1024))'
+      - run:
+          name: Inspect Node heap usage (background)
+          command: |
+            while true; do
+              sleep 1
+              printf "\n\n$(date)\n"
+              echo "Heap usage (%):"
+              node -e 'var s = v8.getHeapStatistics(); console.log(100 * s.used_heap_size/s.total_heap_size)'
+              echo "======"
+            done
+          background: true
+      - run:
           name: glob tests to verify
           command: |
             circleci tests glob "/mnt/ramdisk/**/*.test.js"
